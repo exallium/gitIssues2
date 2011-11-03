@@ -20,11 +20,12 @@ public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderPro
 		this.context = context;
 		
 		// This should be done better...
-		titles = new String[4];
-		titles[0] = "News";
-		titles[1] = "Personal";
-		titles[2] = "Organization";
-		titles[3] = "Watched";
+		titles = new String[5];
+		titles[0] = "";
+		titles[1] = "Watched";
+		titles[2] = "Personal";
+		titles[3] = "Organization";
+		titles[4] = "";
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderPro
 
 	@Override
 	public int getCount() {
-		return 4;
+		return 3;
 	}
 
 	@Override
@@ -72,9 +73,7 @@ public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderPro
 	}
 
 	public String getTitle(int position) {
-		Log.d("ASDF", "position " + position);
-		position = (position + 4)%4;
-		return titles[position];
+		return titles[++position];
 	}
 	
 }

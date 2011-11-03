@@ -23,15 +23,21 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        mainPagerPosition=0;
-        
-        mainPagerAdapter = new MainPagerAdapter(this);
+        setupPager();
+    }
+    
+    public void setupPager() {
+    	mainPagerAdapter = new MainPagerAdapter(this);
         mainPager = (ViewPager) findViewById(R.id.mainpager);
         mainPager.setAdapter(mainPagerAdapter);
         
         mainPagerHeader = (ViewPagerHeader) findViewById(R.id.mainpagerheader);
         mainPagerHeader.setViewPager(mainPager);
         mainPagerHeader.setViewPagerHeaderListener(this);
+        
+        mainPager.setCurrentItem(1);
+        mainPagerHeader.setCurrentItem(1);
+        mainPagerPosition = 1;
     }
 
 	public void onPageSelected(int position) {
@@ -40,10 +46,9 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 
 	public void prev() {
 		mainPager.setCurrentItem(--mainPagerPosition);
-		if(mainPagerPosition == -1) mainPagerPosition = 3;
 	}
 
 	public void next() {
-		mainPager.setCurrentItem(++mainPagerPosition%4);
+		mainPager.setCurrentItem(++mainPagerPosition);
 	}
 }
