@@ -2,31 +2,21 @@ package org.exallium.gitissues;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.User;
-import org.eclipse.egit.github.core.client.GitHubClient;
-import org.eclipse.egit.github.core.client.GitHubRequest;
-import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.OrganizationService;
 import org.eclipse.egit.github.core.service.RepositoryService;
-import org.eclipse.egit.github.core.service.UserService;
 import org.eclipse.egit.github.core.service.WatcherService;
 import org.exallium.gitissues.adapters.MainPagerAdapter;
-import org.exallium.gitissues.adapters.RepositoryAdapter;
 import org.exallium.gitissues.dialogs.ErrorDialog;
 import org.exallium.gitissues.listeners.NewsDrawerListener;
-import org.json.JSONObject;
-
 import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,11 +24,9 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SlidingDrawer;
 
 public class GitIssues2Activity extends Activity implements ViewPagerHeaderListener {
@@ -108,6 +96,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 				SharedPreferences prefs = GitIssues2Activity.this.getSharedPreferences("login", MODE_PRIVATE);
 				String username = prefs.getString("USERNAME", "");
 				String password = prefs.getString("PASSWORD", "");
+				
+				if(username == "") return;
 				
 				RepositoryService repoService = new RepositoryService();
 				repoService.getClient().setCredentials(username, password);
