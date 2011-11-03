@@ -17,9 +17,8 @@ public class RepositoryAdapter extends ArrayAdapter<Repository> {
 	Context context;
 	List<Repository> repoList;
 
-	public RepositoryAdapter(Context context, int resource,
-			int textViewResourceId, List<Repository> objects) {
-		super(context, resource, textViewResourceId, objects);
+	public RepositoryAdapter(Context context, int resource, List<Repository> objects) {
+		super(context, resource, objects);
 		
 		this.context = context;
 		repoList = objects;
