@@ -4,16 +4,30 @@ import java.io.IOException;
 
 import org.eclipse.egit.github.core.service.RepositoryService;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
+	
+	private Thread loginCheckThread;
+	private Handler loginCheckHandler;
+	private ProgressDialog pd;
+	
+	private String username = "";
+	private String password = "";
+	
+	private static int SUCCESS = 0;
+	private static int FAILURE = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +36,52 @@ public class LoginActivity extends Activity implements OnClickListener {
 		
 		Button submit = (Button) findViewById(R.id.login_submit);
 		submit.setOnClickListener(this);
+		
+		loginCheckThread = new Thread(new Runnable() {
+			public void run() {
+				try {
+					RepositoryService repoService = new RepositoryService();
+					repoService.getClient().setCredentials(username, password);
+					repoService.getRepositories();
+					
+					SharedPreferences prefs = LoginActivity.this.getSharedPreferences("login", MODE_PRIVATE);
+					SharedPreferences.Editor prefsEditor = prefs.edit();
+					
+					prefsEditor.putString("USERNAME", username);
+					prefsEditor.putString("PASSWORD", password);
+					prefsEditor.commit();
+					
+					loginCheckHandler.sendEmptyMessage(SUCCESS);
+					
+				} catch (IOException e) {
+					loginCheckHandler.sendEmptyMessage(FAILURE);
+				}
+			}
+		});
+		
+		loginCheckHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				if(msg.what == SUCCESS) {
+					Intent i = new Intent(getApplicationContext(), GitIssues2Activity.class);
+					startActivity(i);
+					LoginActivity.this.finish();
+				} else {
+					AlertDialog.Builder errorDialog = new AlertDialog.Builder(LoginActivity.this);
+					errorDialog.setTitle("Error");
+					errorDialog.setMessage("Bad Username/Password Combination, or no connection to Internet.");
+					errorDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// Do Nothing.
+							
+						}
+					});
+					errorDialog.show();
+				}
+				
+				pd.dismiss();
+			}
+		};
 	}
 	
 	public void onClick(View v) {
@@ -29,30 +89,17 @@ public class LoginActivity extends Activity implements OnClickListener {
 		EditText user = (EditText) findViewById(R.id.login_user);
 		EditText pass = (EditText) findViewById(R.id.login_pass);
 		
-		String username = user.getText().toString();
-		String password = pass.getText().toString();
+		username = user.getText().toString();
+		password = pass.getText().toString();
 		
-		RepositoryService repoService = new RepositoryService();
-		repoService.getClient().setCredentials(username, password);
+		// Show the dialog
+		pd = ProgressDialog.show(this, "Authenticating...", "Logging in to Github");
 		
-		// Separate thread this stuff
+		// Try to Login
 		try {
-			repoService.getRepositories();
-			
-			SharedPreferences prefs = this.getSharedPreferences("login", MODE_PRIVATE);
-			SharedPreferences.Editor prefsEditor = prefs.edit();
-			
-			prefsEditor.putString("USERNAME", username);
-			prefsEditor.putString("PASSWORD", password);
-			prefsEditor.commit();
-			
-			Intent i = new Intent(getApplicationContext(), GitIssues2Activity.class);
-			startActivity(i);
-			this.finish();
-			
-		} catch (IOException e) {
-			// NO. Blast it.
-			Toast.makeText(getApplicationContext(), "Bad Username/Password", Toast.LENGTH_LONG).show();
+			loginCheckThread.start();
+		} catch(Exception e) {
+			loginCheckThread.run();
 		}
 	}
 }
