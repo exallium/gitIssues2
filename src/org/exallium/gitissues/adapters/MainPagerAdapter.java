@@ -1,23 +1,29 @@
 package org.exallium.gitissues.adapters;
 
+import java.util.List;
+
+import org.eclipse.egit.github.core.Repository;
+import org.exallium.gitissues.R;
+
 import com.sturtz.viewpagerheader.ViewPagerHeaderProvider;
 
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider{
 	
 	private Context context;
 	private String [] titles;
+	private List<List<Repository>> repoLists;
 	
-	public MainPagerAdapter(Context context) {
+	public MainPagerAdapter(Context context, List<List<Repository>> repoLists) {
 		super();
 		this.context = context;
+		this.repoLists = repoLists;
 		
 		// This should be done better...
 		titles = new String[5];
@@ -30,7 +36,7 @@ public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderPro
 
 	@Override
 	public void destroyItem(View arg0, int arg1, Object arg2) {
-		((ViewPager )arg0).removeView((TextView) arg2);
+		((ViewPager )arg0).removeView((ListView) arg2);
 	}
 
 	@Override
@@ -45,16 +51,16 @@ public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderPro
 
 	@Override
 	public Object instantiateItem(View arg0, int arg1) {
-		TextView tv = new TextView(context);
-		tv.setText("No Content, page " + arg1);
+		ListView lv = new ListView(context);
+		lv.setAdapter(new RepositoryAdapter(context, R.layout.repository_rowitem, repoLists.get(arg1)));
 		
-		((ViewPager) arg0).addView(tv);
-		return tv;
+		((ViewPager) arg0).addView(lv);
+		return lv;
 	}
 
 	@Override
 	public boolean isViewFromObject(View arg0, Object arg1) {
-		return arg0 == (TextView)arg1;
+		return arg0 == (ListView)arg1;
 	}
 
 	@Override
