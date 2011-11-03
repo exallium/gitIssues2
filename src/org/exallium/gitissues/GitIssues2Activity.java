@@ -6,18 +6,26 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.User;
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.client.GitHubRequest;
+import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.OrganizationService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.eclipse.egit.github.core.service.UserService;
+import org.eclipse.egit.github.core.service.WatcherService;
 import org.exallium.gitissues.adapters.MainPagerAdapter;
 import org.exallium.gitissues.adapters.RepositoryAdapter;
 import org.exallium.gitissues.dialogs.ErrorDialog;
 import org.exallium.gitissues.listeners.NewsDrawerListener;
+import org.json.JSONObject;
 
 import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,6 +53,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 	
 	private Thread repositoryThread;
 	private Handler repositoryHandler;
+	private ProgressDialog pd;
 	
 	private List<Repository> personal;
 	private List<Repository> organization;
@@ -83,6 +92,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     }
     
     private void populateRepositories() {
+    	pd = ProgressDialog.show(this, "Please Wait", "Grabing Repositories");
+    	
 		try {
 			repositoryThread.start();
 		} catch (Exception e) {
@@ -101,17 +112,46 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 				RepositoryService repoService = new RepositoryService();
 				repoService.getClient().setCredentials(username, password);
 				
-				//OrganizationService orgService = new OrganizationService();
-				//orgService.getClient().setCredentials(username, password);
+				OrganizationService orgService = new OrganizationService();
+				orgService.getClient().setCredentials(username, password);
+				
+				WatcherService watcherService = new WatcherService();
+				
+				organization = new ArrayList<Repository>();
+				watched = new ArrayList<Repository>();
 				
 				try {
 					personal = repoService.getRepositories(username);
+					List<Repository> watched_unfiltered = watcherService.getWatched(username);
 					
-					if(personal == null) {
-						Log.d("ASDF", "NULL");
+					List<User> organizations = orgService.getOrganizations();
+					
+					for(int i = 0; i < organizations.size(); i++) {
+						String login = organizations.get(i).getLogin();
+						organization.addAll(repoService.getRepositories(login));
 					}
-					//organization = orgService.getOrganizations(username);
-					//watched = 
+					
+					for(int i = 0; i < watched_unfiltered.size(); i++) {
+						boolean exists = false;
+						
+						if(watched_unfiltered.get(i).getOwner().getLogin().contentEquals(username.toLowerCase())) {
+							// Do Not Add
+							continue;
+						}
+						
+						for(int j = 0; j < organizations.size(); j++) {
+							if(watched_unfiltered.get(i).getOwner().getLogin()
+									.contentEquals(organizations.get(j).getLogin())) {
+								exists = true;
+								break;
+							}
+						}
+						
+						if(!exists) {
+							watched.add(watched_unfiltered.get(i));
+						}
+					}
+					
 					repositoryHandler.sendEmptyMessage(SUCCESS);
 					
 				} catch (IOException e) {
@@ -124,6 +164,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 		
 		repositoryHandler = new Handler() {
 			public void handleMessage(Message msg) {
+				pd.dismiss();
+				
 				if(msg.what == SUCCESS) { 
 					setupPager();
 			        setupDrawer();
@@ -145,9 +187,9 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     public void setupPager() {
     	
     	List<List<Repository>> repoLists = new ArrayList<List<Repository>>();
+    	repoLists.add(watched);
     	repoLists.add(personal);
-    	repoLists.add(personal);
-    	repoLists.add(personal);
+    	repoLists.add(organization);
     	
     	mainPagerAdapter = new MainPagerAdapter(this, repoLists);
         mainPager = (ViewPager) findViewById(R.id.mainpager);
