@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:viewpagerheader="http://schemas.android.com/apk/res/org.exallium.gitissues"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-        
-        <include layout="@layout/actionbar" />
-        
-        <com.sturtz.viewpagerheader.ViewPagerHeader
+        <LinearLayout
         	android:layout_width="fill_parent"
-        	android:layout_height="30dip"
-        	android:id="@+id/mainpagerheader"
-        	viewpagerheader:backgroundColor="#FF1D1D1D"
-        	viewpagerheader:textColor="#FFAAAAAA"
-        	viewpagerheader:lineColor="#FFA4C639"
-        	viewpagerheader:textSize="14sp" />
+    		android:layout_height="wrap_content"
+    		android:orientation="vertical" >
+        	
+        	<include layout="@layout/actionbar" />
         
-        <android.support.v4.view.ViewPager
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:id="@+id/mainpager" />
+        	<com.sturtz.viewpagerheader.ViewPagerHeader
+        		android:layout_width="fill_parent"
+        		android:layout_height="30dip"
+        		android:id="@+id/mainpagerheader"
+        		viewpagerheader:backgroundColor="#FF1D1D1D"
+        		viewpagerheader:textColor="#FFAAAAAA"
+        		viewpagerheader:lineColor="#FFA4C639"
+        		viewpagerheader:textSize="14sp" />
+        
+        	<android.support.v4.view.ViewPager
+        		android:layout_width="fill_parent"
+        		android:layout_height="wrap_content"
+        		android:id="@+id/mainpager" />
+       	</LinearLayout> 	
+       	
+        <include layout="@layout/news_drawer" />
 
-</LinearLayout>
+</FrameLayout>

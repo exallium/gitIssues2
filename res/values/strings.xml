@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, GitIssues2Activity!</string>
     <string name="app_name">GitIssues2</string>
+    <string name="news_drawer">News Feed</string>
 
 </resources>

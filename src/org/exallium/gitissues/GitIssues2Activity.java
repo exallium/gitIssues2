@@ -1,6 +1,7 @@
 package org.exallium.gitissues;
 
 import org.exallium.gitissues.adapters.MainPagerAdapter;
+import org.exallium.gitissues.listeners.NewsDrawerListener;
 
 import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
@@ -9,6 +10,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
+import android.widget.SlidingDrawer;
 
 public class GitIssues2Activity extends Activity implements ViewPagerHeaderListener {
 	
@@ -16,6 +18,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 	private ViewPager mainPager;
 	private ViewPagerHeader mainPagerHeader;
 	private int mainPagerPosition;
+	private NewsDrawerListener newsDrawerListener;
+	private SlidingDrawer newsDrawer;
 	
     /** Called when the activity is first created. */
     @Override
@@ -24,6 +28,15 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
         setContentView(R.layout.main);
         
         setupPager();
+        setupDrawer();
+    }
+    
+    public void setupDrawer() {
+    	newsDrawerListener = new NewsDrawerListener();
+    	newsDrawer = (SlidingDrawer) findViewById(R.id.drawer);
+    	newsDrawer.setOnDrawerOpenListener(newsDrawerListener);
+    	newsDrawer.setOnDrawerCloseListener(newsDrawerListener);
+    	newsDrawer.setOnDrawerScrollListener(newsDrawerListener);
     }
     
     public void setupPager() {
