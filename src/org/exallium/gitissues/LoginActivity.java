@@ -3,10 +3,10 @@ package org.exallium.gitissues;
 import java.io.IOException;
 
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.exallium.gitissues.dialogs.ErrorDialog;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -67,16 +67,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					startActivity(i);
 					LoginActivity.this.finish();
 				} else {
-					AlertDialog.Builder errorDialog = new AlertDialog.Builder(LoginActivity.this);
-					errorDialog.setTitle("Error");
-					errorDialog.setMessage("Bad Username/Password Combination, or no connection to Internet.");
-					errorDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							// Do Nothing.
-							
-						}
-					});
-					errorDialog.show();
+					ErrorDialog.show(LoginActivity.this);
 				}
 				
 				pd.dismiss();
