@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:viewpagerheader="http://schemas.android.com/apk/res/org.exallium.gitissues"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
         <LinearLayout
         	android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
+    		android:layout_height="0dip"
+    		android:layout_weight="0.90"
     		android:orientation="vertical" >
         	
         	<include layout="@layout/actionbar" />
@@ -24,8 +25,13 @@
         		android:layout_width="fill_parent"
         		android:layout_height="wrap_content"
         		android:id="@+id/mainpager" />
+        	
        	</LinearLayout> 	
-       	
-        <include layout="@layout/news_drawer" />
-
-</FrameLayout>
+ 		<FrameLayout
+ 			android:layout_width="fill_parent"
+ 			android:layout_height="0dip"
+ 			android:orientation="vertical"
+ 			android:layout_weight="0.10">
+        	<include layout="@layout/news_drawer" />
+		</FrameLayout>
+</LinearLayout>

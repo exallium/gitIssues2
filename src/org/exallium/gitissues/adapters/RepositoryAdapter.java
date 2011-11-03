@@ -36,8 +36,10 @@ public class RepositoryAdapter extends ArrayAdapter<Repository> {
 		
 		Repository r = repoList.get(position);
 		if(r != null) {
-			TextView tv = (TextView) v.findViewById(R.id.repository_name);
-			tv.setText(r.getName());
+			TextView owner = (TextView) v.findViewById(R.id.repository_login);
+			TextView name = (TextView) v.findViewById(R.id.repository_name);
+			owner.setText(r.getOwner().getLogin() + "/");
+			name.setText(r.getName());
 		}
 		
 		return v;
