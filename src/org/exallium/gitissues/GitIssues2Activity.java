@@ -7,9 +7,14 @@ import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.SlidingDrawer;
 
 public class GitIssues2Activity extends Activity implements ViewPagerHeaderListener {
@@ -20,6 +25,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 	private int mainPagerPosition;
 	private NewsDrawerListener newsDrawerListener;
 	private SlidingDrawer newsDrawer;
+	private SharedPreferences prefs;
 	
     /** Called when the activity is first created. */
     @Override
@@ -27,8 +33,27 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        prefs = this.getSharedPreferences("login", MODE_PRIVATE);
+        if(prefs.getString("USERNAME", "").contentEquals("")) {
+        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        	startActivity(i);
+        	this.finish();
+        }
+        
         setupPager();
         setupDrawer();
+        
+        // Temporary to test clearing credentials and restarting app
+        Button btn = (Button) findViewById(R.id.btn);
+        btn.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				SharedPreferences.Editor edit = prefs.edit();
+				edit.putString("USERNAME", "");
+				edit.putString("PASSWORD", "");
+				edit.commit();
+			}
+		});
     }
     
     public void setupDrawer() {

@@ -26,6 +26,8 @@
   		android:id="@+id/content"
   		android:background="#FFFFFF" >
   		
+  	    <!-- Everything in here needs to be rewritten for le' newsfeed. -->
+  		
   		<TextView
   			android:layout_width="wrap_content"
   			android:layout_height="wrap_content"
@@ -35,8 +37,7 @@
   		<Button
   			android:layout_width="wrap_content"
   			android:layout_height="wrap_content"
-  			android:text="Click Me"
-  			android:id="@+id/btn"
-  			android:onClick="ClickHandler" />
+  			android:text="Login Screen"
+  			android:id="@+id/btn" />
   	</LinearLayout>
 </SlidingDrawer>
