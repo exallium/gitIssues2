@@ -142,6 +142,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 						}
 					}
 					
+					// Do some sorting!
+					
 					repositoryHandler.sendEmptyMessage(SUCCESS);
 					
 				} catch (IOException e) {
