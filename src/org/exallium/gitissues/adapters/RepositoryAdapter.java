@@ -8,9 +8,11 @@ import org.exallium.gitissues.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RepositoryAdapter extends ArrayAdapter<Repository> {
 	
@@ -39,6 +41,17 @@ public class RepositoryAdapter extends ArrayAdapter<Repository> {
 			owner.setText(r.getOwner().getLogin() + "/");
 			name.setText(r.getName());
 		}
+		
+		v.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				TextView owner = (TextView) v.findViewById(R.id.repository_login);
+				TextView repo = (TextView) v.findViewById(R.id.repository_name);
+				
+				Toast.makeText(getContext(), "" + owner.getText().toString()
+						+ repo.getText().toString(), Toast.LENGTH_LONG).show();
+			}
+		});
 		
 		return v;
 	}

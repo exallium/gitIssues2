@@ -2,7 +2,6 @@ package org.exallium.gitissues;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.egit.github.core.IssueEvent;
@@ -12,7 +11,6 @@ import org.eclipse.egit.github.core.client.PageIterator;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.eclipse.egit.github.core.service.OrganizationService;
 import org.eclipse.egit.github.core.service.RepositoryService;
-import org.eclipse.egit.github.core.service.UserService;
 import org.eclipse.egit.github.core.service.WatcherService;
 import org.exallium.gitissues.adapters.IssueEventAdapter;
 import org.exallium.gitissues.adapters.MainPagerAdapter;
@@ -30,10 +28,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 
