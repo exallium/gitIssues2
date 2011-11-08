@@ -2,26 +2,24 @@ package org.exallium.gitissues;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.egit.github.core.Issue;
-import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.service.IssueService;
-import org.exallium.gitissues.adapters.IssueAdapter;
 import org.exallium.gitissues.adapters.IssuePagerAdapter;
-import org.exallium.gitissues.adapters.MainPagerAdapter;
 import org.exallium.gitissues.dialogs.ErrorDialog;
 
 import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class IssueListActivity extends Activity implements ViewPagerHeaderListener {
@@ -43,6 +41,7 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 	private int FAILURE = 1;
 	
 	private SharedPreferences prefs;
+	private ProgressDialog pd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +81,8 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
     }
 
 	private void populateIssuesThread() {
+		pd = ProgressDialog.show(this, "Please Wait...", "Grabbing Issues...");
+		
 		try {
 			issuesThread.start();
 		} catch (Exception e) {
@@ -102,10 +103,14 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 				issueService.getClient().setCredentials(user, password);
 				
 				try {
-					//Map<String, String> openMap = new Map<String, String>();
+					Map<String, String> filter = new HashMap<String, String>();
 					
-					openIssues = issueService.getIssues(owner, repo, null);
-					closedIssues = issueService.getIssues(owner, repo, null);
+					filter.put("state", "open");
+					openIssues = issueService.getIssues(owner, repo, filter);
+					
+					filter.put("state", "closed");
+					closedIssues = issueService.getIssues(owner, repo, filter);
+					
 					issuesHandler.sendEmptyMessage(SUCCESS);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -117,6 +122,8 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 		
 		issuesHandler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
+				pd.dismiss();
+				
 				if(msg.what == SUCCESS) {
 					setupPager();
 				} else {
@@ -127,17 +134,14 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 	}
 
 	public void onPageSelected(int position) {
-		// TODO Auto-generated method stub
-		
+		issuePagerPosition = position;
 	}
 
 	public void prev() {
-		// TODO Auto-generated method stub
-		
+		issuePager.setCurrentItem(--issuePagerPosition);
 	}
 
 	public void next() {
-		// TODO Auto-generated method stub
-		
+		issuePager.setCurrentItem(++issuePagerPosition);
 	}
 }
