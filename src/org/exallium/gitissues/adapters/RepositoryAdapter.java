@@ -3,16 +3,17 @@ package org.exallium.gitissues.adapters;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Repository;
+import org.exallium.gitissues.IssueListActivity;
 import org.exallium.gitissues.R;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class RepositoryAdapter extends ArrayAdapter<Repository> {
 	
@@ -48,8 +49,15 @@ public class RepositoryAdapter extends ArrayAdapter<Repository> {
 				TextView owner = (TextView) v.findViewById(R.id.repository_login);
 				TextView repo = (TextView) v.findViewById(R.id.repository_name);
 				
-				Toast.makeText(getContext(), "" + owner.getText().toString()
-						+ repo.getText().toString(), Toast.LENGTH_LONG).show();
+				String owner_string = owner.getText().toString().replace("/", "");
+				String repo_string = repo.getText().toString();
+				
+				// This is where we start the "IssueListActivity"
+				Intent i = new Intent(getContext(), IssueListActivity.class);
+				i.putExtra("repo", repo_string);
+				i.putExtra("owner", owner_string);
+				
+				getContext().startActivity(i);
 			}
 		});
 		
