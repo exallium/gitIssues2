@@ -2,8 +2,74 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    
-
+    android:orientation="horizontal" >
+    <ImageView 
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:id="@+id/news_avatar"
+        android:background="#1D1D1D"/>
+	<LinearLayout
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#648AC5"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/news_actor" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:background="#FFF6A9"
+        android:id="@+id/news_action" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#648AC5"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/news_issueid" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="in"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#648AC5"
+        android:paddingLeft="5dp"
+        android:id="@+id/news_owner" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#648AC5"
+        android:textStyle="bold"
+        android:id="@+id/news_repo" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:paddingLeft="5dp"
+        android:id="@+id/news_date" />
+	</LinearLayout>
+	</LinearLayout>
 </LinearLayout>
