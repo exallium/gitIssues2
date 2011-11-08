@@ -68,7 +68,7 @@ public class IssueEventAdapter extends ArrayAdapter<IssueEvent> {
 		String [] info = new String[2];
 		url = url.replace(prefix, "");
 		info[0] = url.substring(0, url.indexOf("/") + 1);
-		url = url.replace(info[0], "");
+		url = url.substring(info[0].length());
 		info[1] = url.substring(0, url.indexOf("/"));
 		return info;
 	}

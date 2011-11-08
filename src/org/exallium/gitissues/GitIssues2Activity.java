@@ -148,7 +148,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 				for(int i = 0; i < repoList.size(); i++) {
 					PageIterator<IssueEvent> page1 = service.pageEvents(
 							repoList.get(i).getOwner().getLogin(), 
-							repoList.get(i).getName(), 2);
+							repoList.get(i).getName(), 1);
 					List<IssueEvent> issueEventList = (List<IssueEvent>) page1.next();
 					feed.addAll(issueEventList);
 				}
