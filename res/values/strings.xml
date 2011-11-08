@@ -3,7 +3,7 @@
 
     <string name="hello">Hello World, GitIssues2Activity!</string>
     <string name="app_name">GitIssues2</string>
-    <string name="news_drawer">News Feed</string>
+    <string name="news_drawer">Issues Feed</string>
     <string name="login_welcome">Please log in to Continue</string>
     <string name="login_user_hint">Github Username</string>
     <string name="login_pass_hint">Github Password</string>

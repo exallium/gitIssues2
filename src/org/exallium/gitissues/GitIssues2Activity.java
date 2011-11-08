@@ -101,7 +101,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     }
     
     private void populateRepositories() {
-    	pd = ProgressDialog.show(this, "Please Wait", "Grabing Repositories");
+    	pd = ProgressDialog.show(this, "Please Wait", "Grabbing Repositories");
     	
 		try {
 			repositoryThread.start();
