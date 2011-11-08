@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:viewpagerheader="http://schemas.android.com/apk/res/org.exallium.gitissues"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/actionbar" />
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="#1D1D1D">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:id="@+id/issue_owner" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:paddingBottom="5dp"
+        android:id="@+id/issue_repo" />
+    </LinearLayout>
+    
+    <com.sturtz.viewpagerheader.ViewPagerHeader
+        android:layout_width="fill_parent"
+        android:layout_height="30dip"
+        android:id="@+id/issuepagerheader"
+        viewpagerheader:backgroundColor="#FF1D1D1D"
+        viewpagerheader:textColor="#FFAAAAAA"
+        viewpagerheader:lineColor="#FFA4C639"
+        viewpagerheader:textSize="14sp" />
+        
+	<android.support.v4.view.ViewPager
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/issuepager" />
+
+</LinearLayout>
