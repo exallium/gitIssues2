@@ -3,7 +3,6 @@ package org.exallium.gitissues.adapters;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Issue;
-import org.eclipse.egit.github.core.Repository;
 import org.exallium.gitissues.R;
 
 import com.sturtz.viewpagerheader.ViewPagerHeaderProvider;
@@ -13,6 +12,8 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ListView;
 
 public class IssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider{
@@ -51,10 +52,25 @@ public class IssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderPr
 
 	@Override
 	public Object instantiateItem(View arg0, int arg1) {
-		ListView lv = new ListView(context);
-		lv.setAdapter(new IssueAdapter(context, R.layout.issue_rowitem, issueLists.get(arg1)));
+		final ExpandableListView lv = new ExpandableListView(context);
+		final ExpandableIssueAdapter ad = new ExpandableIssueAdapter(
+				context, R.layout.issue_rowitem, issueLists.get(arg1));
+		lv.setAdapter(ad);
 		
 		((ViewPager) arg0).addView(lv);
+		
+		lv.setOnGroupExpandListener(new OnGroupExpandListener() {
+			
+			public void onGroupExpand(int groupPosition) {
+				int len = ad.getGroupCount();
+				for(int i = 0; i < len; i++) {
+					if(i != groupPosition) {
+						lv.collapseGroup(i);
+					}
+				}
+			}
+		});
+		
 		return lv;
 	}
 
@@ -80,6 +96,5 @@ public class IssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderPr
 
 	public String getTitle(int position) {
 		return titles[++position];
-	}
-	
+	}	
 }
