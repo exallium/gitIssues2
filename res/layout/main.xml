@@ -6,10 +6,10 @@
     android:orientation="vertical" >
         <LinearLayout
         	android:layout_width="fill_parent"
-    		android:layout_height="458dp"
+    		android:layout_height="463dp"
     		android:orientation="vertical" >
         	
-        	<include layout="@layout/actionbar" />
+        	<include layout="@layout/actionbar_nosearch" />
         
         	<com.sturtz.viewpagerheader.ViewPagerHeader
         		android:layout_width="fill_parent"

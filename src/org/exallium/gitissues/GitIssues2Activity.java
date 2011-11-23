@@ -30,6 +30,7 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
+import android.widget.ViewSwitcher;
 
 public class GitIssues2Activity extends Activity implements ViewPagerHeaderListener {
 	
@@ -39,6 +40,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 	private int mainPagerPosition;
 	private NewsDrawerListener newsDrawerListener;
 	private SlidingDrawer newsDrawer;
+	private ViewSwitcher newsSwitcher;
 	private SharedPreferences prefs;
 	
 	private Thread repositoryThread;
@@ -75,6 +77,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
         }
         
         newsFeedView = (ListView) findViewById(R.id.newsfeed);
+        newsSwitcher = (ViewSwitcher) findViewById(R.id.news_switcher);
         
         buildRepoThread();
         populateRepositories();
@@ -84,8 +87,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     
     // This can only be called after we have all the repositories...
     private void populateNews() {
-    	
-    	// Need to set progress indicator for news slider here
+    	newsSwitcher.setDisplayedChild(0);
     	
     	try {
     		newsThread.start();
@@ -159,6 +161,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     				
     				newsFeedView.setAdapter(new IssueEventAdapter(getApplicationContext(), 
     						R.layout.news_rowitem, newsFeed));
+    				
+    				newsSwitcher.setDisplayedChild(1);
     			} else {
     				
     			}

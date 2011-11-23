@@ -26,11 +26,36 @@
   		android:id="@+id/content"
   		android:background="#FFFFFF" >
   		
-  	    <!-- Everything in here needs to be rewritten for le' newsfeed. -->
-  	    <ListView
+  	    <ViewSwitcher
   	        android:layout_width="fill_parent"
-  	        android:layout_height="wrap_content"
-  	        android:id="@+id/newsfeed" />
+  	        android:layout_height="fill_parent"
+  	        android:inAnimation="@android:anim/fade_in"
+  	        android:outAnimation="@android:anim/fade_out"
+  	        android:id="@+id/news_switcher" >
+  	        
+  	        <RelativeLayout 
+  	            android:layout_width="fill_parent"
+  	            android:layout_height="fill_parent"
+  	            android:background="#1D1D1D">
+
+  	            <ProgressBar
+  	                style="?android:attr/progressBarStyleLarge"
+  	                android:layout_width="wrap_content"
+  	                android:layout_height="wrap_content"
+  	                android:visibility="visible"
+  	                android:layout_centerHorizontal="true" />
+
+  	        </RelativeLayout>
+  	        
+  	        <RelativeLayout 
+  	            android:layout_width="fill_parent"
+  	            android:layout_height="wrap_content">
+  	    	<ListView
+  	        	android:layout_width="fill_parent"
+  	        	android:layout_height="wrap_content"
+  	        	android:id="@+id/newsfeed" />
+  	    	</RelativeLayout>
+  	    </ViewSwitcher>
   		
   	</LinearLayout>
 </SlidingDrawer>

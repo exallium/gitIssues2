@@ -8,12 +8,11 @@ import org.exallium.gitissues.R;
 import com.sturtz.viewpagerheader.ViewPagerHeaderProvider;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ListView;
 
 public class IssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider{
@@ -52,24 +51,14 @@ public class IssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderPr
 
 	@Override
 	public Object instantiateItem(View arg0, int arg1) {
-		final ExpandableListView lv = new ExpandableListView(context);
-		final ExpandableIssueAdapter ad = new ExpandableIssueAdapter(
+		final ListView lv = new ListView(context);
+		final IssueAdapter ad = new IssueAdapter(
 				context, R.layout.issue_rowitem, issueLists.get(arg1));
 		lv.setAdapter(ad);
+		lv.setDivider(new ColorDrawable(0xFF1D1D1D));
+		lv.setDividerHeight(2);
 		
 		((ViewPager) arg0).addView(lv);
-		
-		lv.setOnGroupExpandListener(new OnGroupExpandListener() {
-			
-			public void onGroupExpand(int groupPosition) {
-				int len = ad.getGroupCount();
-				for(int i = 0; i < len; i++) {
-					if(i != groupPosition) {
-						lv.collapseGroup(i);
-					}
-				}
-			}
-		});
 		
 		return lv;
 	}

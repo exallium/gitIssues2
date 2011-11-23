@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class IssueEventAdapter extends ArrayAdapter<IssueEvent> {
@@ -36,7 +35,7 @@ public class IssueEventAdapter extends ArrayAdapter<IssueEvent> {
 		
 		IssueEvent i = issueEventList.get(position);
 		if(i != null) {
-			ImageView avatar = (ImageView) v.findViewById(R.id.news_avatar);
+			//ImageView avatar = (ImageView) v.findViewById(R.id.news_avatar);
 			TextView actor = (TextView) v.findViewById(R.id.news_actor);
 			TextView action = (TextView) v.findViewById(R.id.news_action);
 			TextView issueid = (TextView) v.findViewById(R.id.news_issueid);
