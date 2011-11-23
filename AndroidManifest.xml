@@ -28,6 +28,10 @@
             android:label="@string/app_name"
             android:name=".IssueListActivity" >
         </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".SingleIssueActivity" >
+        </activity>
     </application>
 
 </manifest>

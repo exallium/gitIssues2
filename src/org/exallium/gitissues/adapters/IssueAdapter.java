@@ -7,13 +7,19 @@ import org.eclipse.egit.github.core.Label;
 import org.eclipse.egit.github.core.Milestone;
 import org.eclipse.egit.github.core.User;
 import org.exallium.gitissues.R;
+import org.exallium.gitissues.SingleIssueActivity;
 import org.exallium.gitissues.utils.Util;
 
+import com.google.gson.Gson;
+
 import android.content.Context;
+import android.content.Intent;
+import android.sax.StartElementListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TableRow;
@@ -41,7 +47,7 @@ View v = convertView;
 			v = vi.inflate(R.layout.issue_rowitem_default, null);
 		}
 		
-		Issue i = issueList.get(position);
+		final Issue i = issueList.get(position);
 		if(i != null) {
 			TextView issue_no = (TextView) v.findViewById(R.id.issue_no);
 			TextView issue_date = (TextView) v.findViewById(R.id.issue_date);
@@ -90,6 +96,16 @@ View v = convertView;
 				
 				tr.addView(lv);
 			}
+			
+			v.setOnClickListener(new OnClickListener() {
+				
+				public void onClick(View v) {
+					Intent intent = new Intent(context, SingleIssueActivity.class);
+					String data = (new Gson()).toJson(i);
+					intent.putExtra("issue", data);
+					context.startActivity(intent);
+				}
+			});
 		}
 		
 		return v;
