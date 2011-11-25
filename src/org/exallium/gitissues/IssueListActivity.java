@@ -52,8 +52,8 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 		
 		issuePagerPosition = 0;
 		
-		TextView ownerView = (TextView) findViewById(R.id.issue_owner);
-		TextView repoView = (TextView) findViewById(R.id.issue_repo);
+		TextView ownerView = (TextView) findViewById(R.id.actionbar_title);
+		TextView repoView = (TextView) findViewById(R.id.actionbar_extra);
 		
 		owner = this.getIntent().getStringExtra("owner");
 		repo = this.getIntent().getStringExtra("repo");
