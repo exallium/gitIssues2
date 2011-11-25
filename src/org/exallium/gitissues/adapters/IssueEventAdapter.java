@@ -3,6 +3,7 @@ package org.exallium.gitissues.adapters;
 import java.util.List;
 import org.eclipse.egit.github.core.IssueEvent;
 import org.exallium.gitissues.R;
+import org.exallium.gitissues.utils.Util;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,8 +14,6 @@ import android.widget.TextView;
 
 public class IssueEventAdapter extends ArrayAdapter<IssueEvent> {
 	private List<IssueEvent> issueEventList;
-	
-	private String prefix = "https://api.github.com/repos/";
 	
 	public IssueEventAdapter(Context context, int textViewResourceId,
 			List<IssueEvent> objects) {
@@ -53,7 +52,7 @@ public class IssueEventAdapter extends ArrayAdapter<IssueEvent> {
 			
 			issueid.setText("Issue " + i.getIssue().getNumber());
 			
-			String [] repoInfo = parseRepository(i.getUrl());
+			String [] repoInfo = Util.parseRepository(i.getUrl());
 			
 			owner.setText(repoInfo[0]);
 			repo.setText(repoInfo[1]);
@@ -61,14 +60,5 @@ public class IssueEventAdapter extends ArrayAdapter<IssueEvent> {
 		}
 		
 		return v;
-	}
-	
-	private String [] parseRepository(String url) {
-		String [] info = new String[2];
-		url = url.replace(prefix, "");
-		info[0] = url.substring(0, url.indexOf("/") + 1);
-		url = url.substring(info[0].length());
-		info[1] = url.substring(0, url.indexOf("/"));
-		return info;
 	}
 }
