@@ -22,5 +22,19 @@
     	android:paddingTop="5dp"
     	android:paddingBottom="5dp"
     	android:textColor="#FFFFFF"
+    	android:id="@+id/actionbar_title"
+    />
+    
+    <TextView
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:textSize="25sp"
+    	android:paddingTop="5dp"
+    	android:paddingBottom="5dp"
+    	android:textStyle="bold"
+    	android:textColor="#FFFFFF"
+    	android:id="@+id/actionbar_extra"
+    	android:singleLine="true"
+    	android:ellipsize="end"
     />
 </LinearLayout>
