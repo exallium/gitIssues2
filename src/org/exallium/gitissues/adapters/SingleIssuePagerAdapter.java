@@ -27,7 +27,9 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	private static final int OVERVIEW 	= 1;
 	private static final int COMMENTS 	= 2;
 	
-	public boolean comments_loaded = false;
+	private ViewSwitcher commentView;
+	private ListView commentListView;
+	private boolean commentsLoaded = false;
 	
 	public SingleIssuePagerAdapter(Context context, Issue issue) {
 		super();
@@ -51,7 +53,7 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 
 	@Override
 	public void finishUpdate(View arg0) {
-		Log.d("asdf", arg0.toString());
+		
 	}
 
 	@Override
@@ -70,11 +72,22 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			TextView first = new TextView(context);
 			ListView second = new ListView(context);
 			
+			TextView second2 = new TextView(context);
+			
 			first.setText("first");
+			second2.setText("second");
 			
-			v.addView(first);
-			v.addView(second);
+			v.addView(first, 0);
+			v.addView(second2, 1);
 			
+			Log.d("inst", "comments view");
+			
+			if (commentsLoaded) {
+				second2.setText("" + comments.size() + " comments");
+				v.setDisplayedChild(1);
+			}
+			
+			commentView = v;
 			view = v;
 			break;
 		default:
@@ -86,6 +99,19 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		
 		((ViewPager)arg0).addView(view, arg1);
 		return view;
+	}
+	
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+		
+		// Build comments list view
+		
+		commentView.setDisplayedChild(1);
+	}
+	
+	public void setLoading() {
+		commentView.setDisplayedChild(0);
+		this.comments = null;
 	}
 
 	@Override
