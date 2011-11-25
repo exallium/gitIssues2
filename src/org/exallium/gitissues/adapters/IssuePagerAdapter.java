@@ -55,8 +55,6 @@ public class IssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderPr
 		final IssueAdapter ad = new IssueAdapter(
 				context, R.layout.issue_rowitem, issueLists.get(arg1));
 		lv.setAdapter(ad);
-		lv.setDivider(new ColorDrawable(0xFF1D1D1D));
-		lv.setDividerHeight(2);
 		
 		((ViewPager) arg0).addView(lv);
 		
