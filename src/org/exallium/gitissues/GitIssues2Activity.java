@@ -45,7 +45,6 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 	
 	private Thread repositoryThread;
 	private Handler repositoryHandler;
-	private ProgressDialog pd;
 	
 	private Thread newsThread;
 	private Handler newsHandler;
@@ -82,6 +81,8 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
         buildRepoThread();
         populateRepositories();
         buildNewsThread();
+        setupPager();
+        setupDrawer();
         
     }
     
@@ -97,7 +98,6 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     }
     
     private void populateRepositories() {
-    	pd = ProgressDialog.show(this, "Please Wait", "Grabbing Repositories");
     	
 		try {
 			repositoryThread.start();
@@ -237,11 +237,9 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 		
 		repositoryHandler = new Handler() {
 			public void handleMessage(Message msg) {
-				pd.dismiss();
 				
 				if(msg.what == SUCCESS) { 
-					setupPager();
-			        setupDrawer();
+					setRepos();
 			        populateNews();
 				} else {
 					ErrorDialog.show(GitIssues2Activity.this);
@@ -299,15 +297,18 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     	newsDrawer.setOnDrawerCloseListener(newsDrawerListener);
     	newsDrawer.setOnDrawerScrollListener(newsDrawerListener);
     }
-    
-    public void setupPager() {
-    	
-    	List<List<Repository>> repoLists = new ArrayList<List<Repository>>();
+	
+	public void setRepos() {
+		List<List<Repository>> repoLists = new ArrayList<List<Repository>>();
     	repoLists.add(watched);
     	repoLists.add(personal);
     	repoLists.add(organization);
     	
-    	mainPagerAdapter = new MainPagerAdapter(this, repoLists);
+    	mainPagerAdapter.setRepoLists(repoLists);
+	}
+    
+    public void setupPager() {  	
+    	mainPagerAdapter = new MainPagerAdapter(this);
         mainPager = (ViewPager) findViewById(R.id.mainpager);
         mainPager.setAdapter(mainPagerAdapter);
         
