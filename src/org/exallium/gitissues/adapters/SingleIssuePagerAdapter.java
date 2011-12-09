@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.eclipse.egit.github.core.Comment;
 import org.eclipse.egit.github.core.Issue;
+import org.exallium.gitissues.R;
+
 import com.sturtz.viewpagerheader.ViewPagerHeaderProvider;
 
 import android.content.Context;
@@ -11,8 +13,10 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -69,12 +73,15 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		case COMMENTS:
 			ViewSwitcher v = new ViewSwitcher(context);
 			
-			TextView first = new TextView(context);
-			ListView second = new ListView(context);
+			LayoutInflater vi = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View first = vi.inflate(R.layout.progress, null);
+			
+			//ListView second = new ListView(context);
 			
 			TextView second2 = new TextView(context);
 			
-			first.setText("first");
+			
 			second2.setText("second");
 			
 			v.addView(first, 0);
@@ -82,7 +89,7 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			
 			Log.d("inst", "comments view");
 			
-			if (commentsLoaded) {
+			if (comments != null) {
 				second2.setText("" + comments.size() + " comments");
 				v.setDisplayedChild(1);
 			}

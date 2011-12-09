@@ -33,19 +33,7 @@
   	        android:outAnimation="@android:anim/fade_out"
   	        android:id="@+id/news_switcher" >
   	        
-  	        <RelativeLayout 
-  	            android:layout_width="fill_parent"
-  	            android:layout_height="fill_parent"
-  	            android:background="#1D1D1D">
-
-  	            <ProgressBar
-  	                style="?android:attr/progressBarStyleLarge"
-  	                android:layout_width="wrap_content"
-  	                android:layout_height="wrap_content"
-  	                android:visibility="visible"
-  	                android:layout_centerHorizontal="true" />
-
-  	        </RelativeLayout>
+  	        <include layout="@layout/progress"/>
   	        
   	        <RelativeLayout 
   	            android:layout_width="fill_parent"
