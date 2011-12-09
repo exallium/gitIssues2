@@ -5,6 +5,8 @@ import java.util.List;
 import org.eclipse.egit.github.core.Comment;
 import org.eclipse.egit.github.core.Issue;
 import org.exallium.gitissues.R;
+import org.exallium.gitissues.R.id;
+import org.exallium.gitissues.listeners.ProgressBarAnimationListener;
 
 import com.sturtz.viewpagerheader.ViewPagerHeaderProvider;
 
@@ -15,12 +17,15 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider{
+public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider {
 	
 	private Context context;
 	private String [] titles;
@@ -31,15 +36,21 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	private static final int OVERVIEW 	= 1;
 	private static final int COMMENTS 	= 2;
 	
-	private ViewSwitcher commentView;
+	private View commentView;
 	private ListView commentListView;
 	private boolean commentsLoaded = false;
+	
+	private Animation fadein;
+	private Animation fadeout;
 	
 	public SingleIssuePagerAdapter(Context context, Issue issue) {
 		super();
 		this.context = context;
 		this.comments = null;
 		this.issue = issue;
+		
+		fadein = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+		fadeout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
 		
 		// This should be done better...
 		titles = new String[5];
@@ -71,31 +82,24 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		
 		switch(arg1) {
 		case COMMENTS:
-			ViewSwitcher v = new ViewSwitcher(context);
-			
 			LayoutInflater vi = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View first = vi.inflate(R.layout.progress, null);
+			View first = vi.inflate(R.layout.comment_page, null);
 			
-			//ListView second = new ListView(context);
-			
-			TextView second2 = new TextView(context);
-			
-			
-			second2.setText("second");
-			
-			v.addView(first, 0);
-			v.addView(second2, 1);
+			// Grab the progress layout
+			View v = first.findViewById(R.id.progress_head);
+			TextView debug = (TextView) first.findViewById(R.id.debug_text);
 			
 			Log.d("inst", "comments view");
 			
 			if (comments != null) {
-				second2.setText("" + comments.size() + " comments");
-				v.setDisplayedChild(1);
+				v.setVisibility(View.GONE);
+				debug.setText("" + comments.size() + " comments");
+				
 			}
 			
-			commentView = v;
-			view = v;
+			commentView = first;
+			view = first;
 			break;
 		default:
 			TextView tv = new TextView(context);
@@ -110,15 +114,24 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+		View progress = commentView.findViewById(R.id.progress_head);
 		
-		// Build comments list view
+		Animation a = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+		a.setAnimationListener(new ProgressBarAnimationListener(progress));
+		progress.setAnimation(a);
+		progress.setVisibility(View.INVISIBLE);
 		
-		commentView.setDisplayedChild(1);
+		if (comments != null) {
+			TextView debug = (TextView) commentView.findViewById(R.id.debug_text);
+			debug.setText("" + comments.size() + " comments");
+		}
 	}
 	
 	public void setLoading() {
-		commentView.setDisplayedChild(0);
 		this.comments = null;
+		Animation a = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+		commentView.findViewById(R.id.progress_head).setAnimation(a);
+		commentView.findViewById(R.id.progress_head).setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -126,7 +139,7 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		try {
 			return arg0 == (TextView)arg1;
 		} catch (Exception e) {
-			return arg0 == (ViewSwitcher)arg1;
+			return arg0 == (View)arg1;
 		}
 	}
 
