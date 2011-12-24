@@ -88,14 +88,13 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			
 			// Grab the progress layout
 			View v = first.findViewById(R.id.progress_head);
-			TextView debug = (TextView) first.findViewById(R.id.debug_text);
 			
 			Log.d("inst", "comments view");
 			
 			if (comments != null) {
 				v.setVisibility(View.GONE);
-				debug.setText("" + comments.size() + " comments");
-				
+				commentListView = (ListView) first.findViewById(R.id.comments_list);
+				commentListView.setAdapter(new CommentAdapter(context, R.layout.comment_rowitem, comments));
 			}
 			
 			commentView = first;
@@ -122,8 +121,9 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		progress.setVisibility(View.INVISIBLE);
 		
 		if (comments != null) {
-			TextView debug = (TextView) commentView.findViewById(R.id.debug_text);
-			debug.setText("" + comments.size() + " comments");
+			// Add comments list view items here
+			commentListView = (ListView) commentView.findViewById(R.id.comments_list);
+			commentListView.setAdapter(new CommentAdapter(context, R.layout.comment_rowitem, comments));
 		}
 	}
 	

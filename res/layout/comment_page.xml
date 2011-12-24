@@ -6,18 +6,10 @@
 
     <include layout="@layout/progress"
         android:id="@+id/progress_head" />
-    <TextView
-        android:id="@+id/debug_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="asdf"
-        android:textSize="20dp"
-        />
-   <!--  
+    
     <ListView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/comments_list"
     />
-    -->
 </LinearLayout>
