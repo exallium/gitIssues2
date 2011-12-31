@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.eclipse.egit.github.core.Comment;
 import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.Label;
 import org.exallium.gitissues.R;
 import org.exallium.gitissues.R.id;
 import org.exallium.gitissues.listeners.ProgressBarAnimationListener;
+import org.exallium.gitissues.utils.Util;
 
 import com.sturtz.viewpagerheader.ViewPagerHeaderProvider;
 
@@ -22,6 +24,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -79,10 +82,11 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	@Override
 	public Object instantiateItem(View arg0, int arg1) {
 		View view;
+		LayoutInflater vi;
 		
 		switch(arg1) {
 		case COMMENTS:
-			LayoutInflater vi = (LayoutInflater) context
+			vi = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View first = vi.inflate(R.layout.comment_page, null);
 			
@@ -122,8 +126,13 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		
 		if (comments != null) {
 			// Add comments list view items here
-			commentListView = (ListView) commentView.findViewById(R.id.comments_list);
-			commentListView.setAdapter(new CommentAdapter(context, R.layout.comment_rowitem, comments));
+			if (comments.size() != 0) {
+				((TextView) commentView.findViewById(R.id.comments_none)).setVisibility(View.GONE);
+				commentListView = (ListView) commentView.findViewById(R.id.comments_list);
+				commentListView.setAdapter(new CommentAdapter(context, R.layout.comment_rowitem, comments));
+			} else {
+				((TextView) commentView.findViewById(R.id.comments_none)).setVisibility(View.VISIBLE);
+			}
 		}
 	}
 	
