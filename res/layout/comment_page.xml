@@ -7,6 +7,17 @@
     <include layout="@layout/progress"
         android:id="@+id/progress_head" />
     
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comments_none"
+        android:text="@string/comments_none"
+        android:textSize="25sp"
+        android:paddingTop="5dp"
+        android:layout_gravity="center_horizontal"
+    	android:visibility="gone"    
+    />
+    
     <ListView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
