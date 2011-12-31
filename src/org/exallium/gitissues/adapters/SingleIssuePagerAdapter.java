@@ -97,12 +97,44 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			
 			if (comments != null) {
 				v.setVisibility(View.GONE);
-				commentListView = (ListView) first.findViewById(R.id.comments_list);
-				commentListView.setAdapter(new CommentAdapter(context, R.layout.comment_rowitem, comments));
+				
+				if (comments.size() != 0) {
+					((TextView) first.findViewById(R.id.comments_none)).setVisibility(View.GONE);
+					commentListView = (ListView) first.findViewById(R.id.comments_list);
+					commentListView.setAdapter(new CommentAdapter(context, R.layout.comment_rowitem, comments));
+				} else {
+					((TextView) first.findViewById(R.id.comments_none)).setVisibility(View.VISIBLE);
+				}
 			}
 			
 			commentView = first;
 			view = first;
+			break;
+		case OVERVIEW:
+			vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View over = vi.inflate(R.layout.overview_page, null);
+			TableRow labelRow = (TableRow) over.findViewById(R.id.overview_labels);
+			
+			List<Label> labels = issue.getLabels();
+			labelRow.removeAllViews();
+			
+			for(int j = 0; j < labels.size(); j++) {
+				
+				TextView lv = new TextView(context);
+				Label l = labels.get(j);
+				
+				int bg = 0xFF000000 | Integer.parseInt(l.getColor(), 16);
+				
+				lv.setText(l.getName());
+				lv.setBackgroundColor(bg);
+				lv.setPadding(10, 5, 10, 5);
+				lv.setTextSize(25f);
+				lv.setTextColor(Util.contrast(bg));
+				
+				labelRow.addView(lv);
+			}
+			
+			view = over;
 			break;
 		default:
 			TextView tv = new TextView(context);
