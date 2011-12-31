@@ -1,5 +1,6 @@
 package org.exallium.gitissues.adapters;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Comment;
@@ -16,6 +17,7 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,6 +135,12 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 				
 				labelRow.addView(lv);
 			}
+			
+			TextView login = (TextView) over.findViewById(R.id.overview_login);
+			login.setText(issue.getUser().getLogin());
+			
+			TextView created = (TextView) over.findViewById(R.id.overview_created);
+			created.setText("at " + DateFormat.format("MM/dd/yyyy", issue.getCreatedAt()));
 			
 			view = over;
 			break;
