@@ -8,5 +8,6 @@
     <string name="login_user_hint">Github Username</string>
     <string name="login_pass_hint">Github Password</string>
     <string name="login_submit">Login to Github</string>
+    <string name="comments_none">No Comments</string>
 
 </resources>
