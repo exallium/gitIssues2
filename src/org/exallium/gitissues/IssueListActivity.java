@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.TextView;
 
 public class IssueListActivity extends Activity implements ViewPagerHeaderListener {
@@ -102,21 +103,30 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 				IssueService issueService = new IssueService();
 				issueService.getClient().setCredentials(user, password);
 				
-				try {
-					Map<String, String> filter = new HashMap<String, String>();
+				Map<String, String> filter = new HashMap<String, String>();
 					
-					filter.put("state", "open");
+				Log.d("OPEN", "OPEN");
+				filter.put("state", "open");
+					
+				try  {
 					openIssues = issueService.getIssues(owner, repo, filter);
+				} catch(Exception e) {
+					openIssues = new ArrayList<Issue>();
+					e.printStackTrace();
+				}
 					
+				Log.d("CLOSE", "CLOSE");
+				
+				try {
 					filter.put("state", "closed");
 					closedIssues = issueService.getIssues(owner, repo, filter);
-					
-					issuesHandler.sendEmptyMessage(SUCCESS);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
+				} catch (Exception e) {
+					// TODO: These should be more explicit
+					closedIssues = new ArrayList<Issue>();
 					e.printStackTrace();
-					issuesHandler.sendEmptyMessage(FAILURE);
 				}
+					
+				issuesHandler.sendEmptyMessage(SUCCESS);
 			}
 		});
 		
