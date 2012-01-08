@@ -4,10 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+    	<LinearLayout
+    	    android:layout_height="fill_parent"
+    	    android:layout_width="fill_parent"
+    	    android:orientation="vertical"
+    	    android:weightSum="10">
         <LinearLayout
         	android:layout_width="fill_parent"
-    		android:layout_height="463dp"
-    		android:orientation="vertical" >
+    		android:layout_height="fill_parent"
+    		android:orientation="vertical"
+    		android:layout_weight="0.75" >
         	
         	<include layout="@layout/actionbar_nosearch" />
         
@@ -25,6 +31,14 @@
         		android:layout_height="wrap_content"
         		android:id="@+id/mainpager" />
         	
-       	</LinearLayout> 	
+       	</LinearLayout>
+       	<LinearLayout
+       	    android:layout_width="fill_parent"
+       	    android:layout_height="fill_parent"
+       	    android:orientation="horizontal"
+       	    android:layout_weight="9.25">
+       	    
+       	</LinearLayout>
+       	</LinearLayout>
         <include layout="@layout/news_drawer" />
 </FrameLayout>
