@@ -20,7 +20,6 @@ import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.ViewSwitcher;
@@ -149,7 +147,6 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 					PageIterator<IssueEvent> page1 = issueService.pageEvents(
 							repoList.get(i).getOwner().getLogin(), 
 							repoList.get(i).getName(), 1);
-					Log.d("TRACE", "EXCEPTION, " + page1.getNextPage());
 					
 					try {
 						List<IssueEvent> issueEventList = (List<IssueEvent>) page1.next();
