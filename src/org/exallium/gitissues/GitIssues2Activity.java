@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.ViewSwitcher;
@@ -111,7 +112,6 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 			public void run() {
 				SharedPreferences prefs = GitIssues2Activity.this.getSharedPreferences("login", MODE_PRIVATE);
 				String username = prefs.getString("USERNAME", "");
-				String password = prefs.getString("PASSWORD", "");
 				
 				if(username == "") return;
 				
@@ -120,13 +120,11 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 				watchedFeed = new ArrayList<IssueEvent>();
 				
 				// Get Issue related events here.
-				IssueService issueService = new IssueService();
-				issueService.getClient().setCredentials(username, password);
 				
 				try {
-					genEvents(personal, personalFeed, issueService);
-					genEvents(organization, organizationFeed, issueService);
-					genEvents(watched, watchedFeed, issueService);
+					genEvents(personal, personalFeed);
+					genEvents(organization, organizationFeed);
+					genEvents(watched, watchedFeed);
 					
 					
 					newsHandler.sendEmptyMessage(SUCCESS);
@@ -138,15 +136,27 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 				}
 			}
 			
-			private void genEvents(List<Repository> repoList, List<IssueEvent> feed, IssueService service) 
+			private void genEvents(List<Repository> repoList, List<IssueEvent> feed) 
 					throws IOException {
 				// This should eventually be user definable
+				SharedPreferences prefs = GitIssues2Activity.this.getSharedPreferences("login", MODE_PRIVATE);
+				String username = prefs.getString("USERNAME", "");
+				String password = prefs.getString("PASSWORD", "");
+				
 				for(int i = 0; i < repoList.size(); i++) {
-					PageIterator<IssueEvent> page1 = service.pageEvents(
+					IssueService issueService = new IssueService();
+					issueService.getClient().setCredentials(username, password);
+					PageIterator<IssueEvent> page1 = issueService.pageEvents(
 							repoList.get(i).getOwner().getLogin(), 
 							repoList.get(i).getName(), 1);
-					List<IssueEvent> issueEventList = (List<IssueEvent>) page1.next();
-					feed.addAll(issueEventList);
+					Log.d("TRACE", "EXCEPTION, " + page1.getNextPage());
+					
+					try {
+						List<IssueEvent> issueEventList = (List<IssueEvent>) page1.next();
+						feed.addAll(issueEventList);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
