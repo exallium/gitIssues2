@@ -10,6 +10,7 @@ import org.eclipse.egit.github.core.Milestone;
 import org.eclipse.egit.github.core.User;
 import org.exallium.gitissues.R;
 import org.exallium.gitissues.R.id;
+import org.exallium.gitissues.SingleIssueActivity;
 import org.exallium.gitissues.listeners.ProgressBarAnimationListener;
 import org.exallium.gitissues.utils.Util;
 
@@ -23,6 +24,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -30,9 +32,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider {
+public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider, OnClickListener {
 	
 	private Context context;
 	private String [] titles;
@@ -49,6 +52,11 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	
 	private Animation fadein;
 	private Animation fadeout;
+	
+	private TextView mDetails;
+	private TextView mStatus;
+	private TextView mComments;
+	private TextView mLabels;
 	
 	public SingleIssuePagerAdapter(Context context, Issue issue) {
 		super();
@@ -160,9 +168,21 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			view = over;
 			break;
 		case MODIFY:
-			TextView tv = new TextView(context);
-			tv.setText("ASDF");
-			view = tv;
+			vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View modify = vi.inflate(R.layout.modify_page, null);
+			
+			// Each of these needs an appropriate event handler attached to it.
+			// Thus, we make them class methods
+			mComments = (TextView) modify.findViewById(R.id.modify_comment);
+			mDetails = (TextView) modify.findViewById(R.id.modify_details);
+			mLabels = (TextView) modify.findViewById(R.id.modify_labels);
+			mStatus = (TextView) modify.findViewById(R.id.modify_status);
+			mComments.setOnClickListener(this);
+			mDetails.setOnClickListener(this);
+			mLabels.setOnClickListener(this);
+			mStatus.setOnClickListener(this);
+			
+			view = modify;
 			break;	
 		}	
 		
@@ -224,6 +244,25 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 
 	public String getTitle(int position) {
 		return titles[++position];
+	}
+
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.modify_comment:
+			Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.modify_details:
+			Toast.makeText(context, "Details", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.modify_labels:
+			Toast.makeText(context, "Labels", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.modify_status:
+			Toast.makeText(context, "Status", Toast.LENGTH_SHORT).show();
+			break;
+		default:
+			break;
+		}
 	}
 	
 }
