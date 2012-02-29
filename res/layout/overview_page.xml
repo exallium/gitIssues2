@@ -4,20 +4,18 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#BBB" >
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="2dp"
-        android:layout_weight="1"
-        android:background="@drawable/overview_background" >
         
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+        	android:background="@drawable/overview_background"
+        	android:layout_weight="0"
+        	android:layout_margin="2dp">
+        	
             <TextView
+                android:drawableLeft="@drawable/ic_launcher"
+                android:drawablePadding="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#555555"
@@ -31,7 +29,41 @@
                 android:padding="2dp"
                 android:id="@+id/overview_created" />
         </LinearLayout>
-    </LinearLayout>
+        
+        <RelativeLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#BBB"   
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_weight="0"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/overview_milestone"
+                android:padding="5dp"
+                android:textSize="15sp"
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/overview_assigned"
+                android:padding="5dp"
+                android:textSize="15sp"
+            />
+        </RelativeLayout>
+    
+    <TextView 
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/overview_background"
+        android:layout_margin="2dp"
+    />
+    
 
     <HorizontalScrollView 
         android:layout_width="fill_parent"

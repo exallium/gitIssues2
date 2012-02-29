@@ -6,6 +6,8 @@ import java.util.List;
 import org.eclipse.egit.github.core.Comment;
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.Label;
+import org.eclipse.egit.github.core.Milestone;
+import org.eclipse.egit.github.core.User;
 import org.exallium.gitissues.R;
 import org.exallium.gitissues.R.id;
 import org.exallium.gitissues.listeners.ProgressBarAnimationListener;
@@ -140,7 +142,17 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			login.setText(issue.getUser().getLogin());
 			
 			TextView created = (TextView) over.findViewById(R.id.overview_created);
-			created.setText("at " + DateFormat.format("MM/dd/yyyy", issue.getCreatedAt()));
+			created.setText("created on " + DateFormat.format("MM/dd/yyyy", issue.getCreatedAt()));
+			
+			TextView milestone = (TextView) over.findViewById(R.id.overview_milestone);
+			Milestone m = issue.getMilestone();
+			String m_text = (m != null) ? m.getTitle() : "No Milestone";
+			milestone.setText(m_text);
+			
+			TextView assigned = (TextView) over.findViewById(R.id.overview_assigned);
+			User a = issue.getAssignee();
+			String a_text = (a != null) ? a.getLogin() : "No Assignee";
+			assigned.setText(a_text);
 			
 			view = over;
 			break;
