@@ -122,8 +122,7 @@ public class SingleIssueActivity extends Activity implements ViewPagerHeaderList
 		pagerHeader.setViewPager(pager);
 		pagerHeader.setViewPagerHeaderListener(this);
 		
-		pagerPosition = 1;
-		pager.setCurrentItem(1);
+		pagerPosition = 0;
 		pagerHeader.setCurrentItem(1);
 	}
 

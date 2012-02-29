@@ -29,16 +29,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider, OnClickListener {
+public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider {
 	
 	private Context context;
 	private String [] titles;
 	private List<Comment> comments;
 	private Issue issue;
 	
-	private static final int MODIFY 	= 0;
-	private static final int OVERVIEW 	= 1;
-	private static final int COMMENTS 	= 2;
+	private static final int OVERVIEW 	= 0;
+	private static final int COMMENTS 	= 1;
 	
 	private View commentView;
 	private ListView commentListView;
@@ -46,11 +45,6 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	
 	private Animation fadein;
 	private Animation fadeout;
-	
-	private TextView mDetails;
-	private TextView mStatus;
-	private TextView mComments;
-	private TextView mLabels;
 	
 	public SingleIssuePagerAdapter(Context context, Issue issue) {
 		super();
@@ -62,12 +56,11 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		fadeout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
 		
 		// This should be done better...
-		titles = new String[5];
+		titles = new String[4];
 		titles[0] = "";
-		titles[1] = "Modify";
-		titles[2] = "Overview";
-		titles[3] = "Comments";
-		titles[4] = "";
+		titles[1] = "Overview";
+		titles[2] = "Comments";
+		titles[3] = "";
 	}
 
 	@Override
@@ -161,23 +154,10 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			
 			view = over;
 			break;
-		case MODIFY:
-			vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View modify = vi.inflate(R.layout.modify_page, null);
-			
-			// Each of these needs an appropriate event handler attached to it.
-			// Thus, we make them class methods
-			mComments = (TextView) modify.findViewById(R.id.modify_comment);
-			mDetails = (TextView) modify.findViewById(R.id.modify_details);
-			mLabels = (TextView) modify.findViewById(R.id.modify_labels);
-			mStatus = (TextView) modify.findViewById(R.id.modify_status);
-			mComments.setOnClickListener(this);
-			mDetails.setOnClickListener(this);
-			mLabels.setOnClickListener(this);
-			mStatus.setOnClickListener(this);
-			
-			view = modify;
-			break;	
+			default:
+				TextView tv = new TextView(context);
+				view = tv;
+				break;
 		}	
 		
 		((ViewPager)arg0).addView(view, arg1);
@@ -240,23 +220,5 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 		return titles[++position];
 	}
 
-	public void onClick(View v) {
-		switch(v.getId()) {
-		case R.id.modify_comment:
-			Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.modify_details:
-			Toast.makeText(context, "Details", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.modify_labels:
-			Toast.makeText(context, "Labels", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.modify_status:
-			Toast.makeText(context, "Status", Toast.LENGTH_SHORT).show();
-			break;
-		default:
-			break;
-		}
-	}
 	
 }
