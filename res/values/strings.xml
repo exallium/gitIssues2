@@ -11,5 +11,9 @@
     <string name="login_submit">Login to Github</string>
     <string name="comments_none">No Comments</string>
     <string name="gravatar">User Gravatar</string>
+    <string name="modify_comment">Add a Comment</string>
+    <string name="modify_status">Toggle Status</string>
+    <string name="modify_details">Edit Details</string>
+    <string name="modify_labels">Manage Labels</string>
 
 </resources>
