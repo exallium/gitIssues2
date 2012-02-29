@@ -22,6 +22,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class SingleIssueActivity extends Activity implements ViewPagerHeaderListener{
@@ -100,6 +103,30 @@ public class SingleIssueActivity extends Activity implements ViewPagerHeaderList
 				}
 			}
 		};
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.singleissue_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.sm_comment:
+			return true;
+		case R.id.sm_edit:
+			return true;
+		case R.id.sm_labels:
+			return true;
+		case R.id.sm_toggle:
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		
 	}
 	
 	private void getComments() {

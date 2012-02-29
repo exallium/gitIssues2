@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+        android:id="@+id/sm_comment"
+        android:icon="@android:drawable/ic_menu_add" 
+        android:title="@string/sm_comments" />
+    <item 
+        android:id="@+id/sm_toggle"
+        android:icon="@android:drawable/ic_menu_rotate" 
+        android:title="@string/sm_toggle" />
+    <item 
+        android:id="@+id/sm_edit"
+        android:icon="@android:drawable/ic_menu_edit" 
+        android:title="@string/sm_edit" />
+    <item 
+        android:id="@+id/sm_labels"
+        android:icon="@android:drawable/ic_menu_manage" 
+        android:title="@string/sm_labels" />
+    
+
+</menu>
