@@ -1,6 +1,5 @@
 package org.exallium.gitissues.adapters;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Comment;
@@ -9,8 +8,6 @@ import org.eclipse.egit.github.core.Label;
 import org.eclipse.egit.github.core.Milestone;
 import org.eclipse.egit.github.core.User;
 import org.exallium.gitissues.R;
-import org.exallium.gitissues.R.id;
-import org.exallium.gitissues.SingleIssueActivity;
 import org.exallium.gitissues.listeners.ProgressBarAnimationListener;
 import org.exallium.gitissues.utils.Util;
 
@@ -26,14 +23,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider, OnClickListener {
 	
