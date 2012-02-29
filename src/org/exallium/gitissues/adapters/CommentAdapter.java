@@ -6,6 +6,7 @@ import org.eclipse.egit.github.core.Comment;
 import org.exallium.gitissues.R;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,13 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 		
 		Comment c = objects.get(position);
 		if (c != null) {
-			TextView tv = (TextView) v.findViewById(R.id.comment_author);
-			tv.setText(c.getUser().getLogin());
+			TextView author = (TextView) v.findViewById(R.id.comment_author);
+			TextView created = (TextView) v.findViewById(R.id.comment_created);
+			TextView body = (TextView) v.findViewById(R.id.comment_body);
+			
+			author.setText(c.getUser().getLogin());
+			created.setText(DateFormat.format("MM/dd/yyyy", c.getCreatedAt()));
+			body.setText(c.getBody());
 		}
 		
 		return v;
