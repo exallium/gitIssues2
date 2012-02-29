@@ -55,14 +55,19 @@
                 android:textSize="15sp"
             />
         </RelativeLayout>
-    
-    <TextView 
+   
+    <ScrollView 
         android:layout_weight="1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/overview_background"
-        android:layout_margin="2dp"
-    />
+        android:layout_margin="2dp">
+    	<TextView 
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:id="@+id/overview_description"
+    	/>
+    </ScrollView>
     
 
     <HorizontalScrollView 

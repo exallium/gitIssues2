@@ -85,7 +85,7 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 
 	@Override
 	public Object instantiateItem(View arg0, int arg1) {
-		View view;
+		View view = null;
 		LayoutInflater vi;
 		
 		switch(arg1) {
@@ -154,9 +154,12 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 			String a_text = (a != null) ? a.getLogin() : "No Assignee";
 			assigned.setText(a_text);
 			
+			TextView description = (TextView) over.findViewById(R.id.overview_description);
+			description.setText(issue.getBody());
+			
 			view = over;
 			break;
-		default:
+		case MODIFY:
 			TextView tv = new TextView(context);
 			tv.setText("ASDF");
 			view = tv;
