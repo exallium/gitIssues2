@@ -67,7 +67,7 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 
 	@Override
 	public int getCount() {
-		return 3;
+		return 2;
 	}
 
 	@Override

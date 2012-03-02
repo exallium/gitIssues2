@@ -77,8 +77,6 @@ View v = convertView;
 			TableRow tr = (TableRow) v.findViewById(R.id.issue_labels);
 			List<Label> labels = i.getLabels();
 			
-			Log.d("label", labels.size() + "");
-			
 			tr.removeAllViews();
 			
 			for(int j = 0; j < labels.size(); j++) {

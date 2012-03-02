@@ -199,7 +199,6 @@ public class SingleIssueActivity extends Activity implements ViewPagerHeaderList
 		pagerHeader.setViewPagerHeaderListener(this);
 		
 		pagerPosition = 0;
-		pagerHeader.setCurrentItem(1);
 	}
 
 	public void onPageSelected(int position) {

@@ -104,7 +104,6 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 				
 				Map<String, String> filter = new HashMap<String, String>();
 					
-				Log.d("OPEN", "OPEN");
 				filter.put("state", "open");
 					
 				try  {
@@ -113,8 +112,6 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 					openIssues = new ArrayList<Issue>();
 					e.printStackTrace();
 				}
-					
-				Log.d("CLOSE", "CLOSE");
 				
 				try {
 					filter.put("state", "closed");
