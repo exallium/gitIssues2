@@ -55,6 +55,19 @@ public class MainPagerAdapter extends PagerAdapter implements ViewPagerHeaderPro
 			lv.setAdapter(new RepositoryAdapter(context, R.layout.repository_rowitem, repoLists.get(i)));
 		}
 	}
+	
+	public void clearRepoLists() {
+		this.repoLists = null;
+		
+		for(int i = 0; i < 3; i++) {
+			Animation a = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+			View v = pages[i].findViewById(R.id.progress_head);
+			a.setAnimationListener(new ProgressBarAnimationListener(v));
+			v.setVisibility(View.INVISIBLE);
+			v.setAnimation(a);
+			v.setVisibility(View.VISIBLE);
+		}
+	}
 
 	@Override
 	public void destroyItem(View arg0, int arg1, Object arg2) {

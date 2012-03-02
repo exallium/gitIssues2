@@ -100,6 +100,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
     	switch(item.getItemId()) {
     	case R.id.repo_refresh:
     		populateRepositories();
+    		return true;
     	case R.id.repo_logout:
     		prefs = this.getSharedPreferences("login", MODE_PRIVATE);
     		SharedPreferences.Editor edit = prefs.edit();
@@ -108,6 +109,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
             this.finish();
+            return true;
     	default:
     		return super.onOptionsItemSelected(item);
     	}
