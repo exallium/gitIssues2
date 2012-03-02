@@ -42,7 +42,6 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 	private int FAILURE = 1;
 	
 	private SharedPreferences prefs;
-	private ProgressDialog pd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +62,20 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 		repoView.setText(repo);
 		
 		buildIssuesThread();
+		setupPager();
 		populateIssuesThread();
-
 	}
 	
-	public void setupPager() {
-    	List<List<Issue>> issueLists = new ArrayList<List<Issue>>();
+	public void setIssues() {
+		List<List<Issue>> issueLists = new ArrayList<List<Issue>>();
     	issueLists.add(openIssues);
     	issueLists.add(closedIssues);
     	
-    	issuePagerAdapter = new IssuePagerAdapter(this, issueLists);
+    	issuePagerAdapter.setIssueLists(issueLists);
+	}
+	
+	public void setupPager() {
+    	issuePagerAdapter = new IssuePagerAdapter(this);
         issuePager = (ViewPager) findViewById(R.id.issuepager);
         issuePager.setAdapter(issuePagerAdapter);
         
@@ -82,7 +85,6 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
     }
 
 	private void populateIssuesThread() {
-		pd = ProgressDialog.show(this, "Please Wait...", "Grabbing Issues...");
 		
 		try {
 			issuesThread.start();
@@ -132,10 +134,9 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 		
 		issuesHandler = new Handler() {
 			public void handleMessage(android.os.Message msg) {
-				pd.dismiss();
 				
 				if(msg.what == SUCCESS) {
-					setupPager();
+					setIssues();
 				} else {
 					ErrorDialog.show(IssueListActivity.this);
 				}

@@ -146,7 +146,7 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
 					issueService.getClient().setCredentials(username, password);
 					PageIterator<IssueEvent> page1 = issueService.pageEvents(
 							repoList.get(i).getOwner().getLogin(), 
-							repoList.get(i).getName(), 5 /* XXX: Make changeable */);
+							repoList.get(i).getName(), 1 /* XXX: Make changeable */);
 					
 					try {
 						List<IssueEvent> issueEventList = (List<IssueEvent>) page1.next();
