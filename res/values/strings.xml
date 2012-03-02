@@ -15,5 +15,7 @@
     <string name="sm_edit">Edit Issue</string>
     <string name="sm_toggle">Toggle Status</string>
     <string name="sm_labels">Manage Labels</string>
+    <string name="refresh">Refresh</string>
+    <string name="re_logout">Logout</string>
 
 </resources>

@@ -27,6 +27,9 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.ViewSwitcher;
@@ -83,6 +86,31 @@ public class GitIssues2Activity extends Activity implements ViewPagerHeaderListe
         setupPager();
         setupDrawer();
         
+    }
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.repo_menu, menu);
+	    return true;
+	}
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.repo_refresh:
+    		populateRepositories();
+    	case R.id.repo_logout:
+    		prefs = this.getSharedPreferences("login", MODE_PRIVATE);
+    		SharedPreferences.Editor edit = prefs.edit();
+    		edit.clear();
+    		edit.commit();
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
+            this.finish();
+    	default:
+    		return super.onOptionsItemSelected(item);
+    	}
     }
     
     // This can only be called after we have all the repositories...
