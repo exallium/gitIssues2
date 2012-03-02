@@ -1,6 +1,5 @@
 package org.exallium.gitissues.adapters;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.egit.github.core.Repository;
