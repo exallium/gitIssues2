@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.egit.github.core.Comment;
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.service.IssueService;
-import org.eclipse.egit.github.core.service.UserService;
 import org.exallium.gitissues.adapters.SingleIssuePagerAdapter;
 import org.exallium.gitissues.dialogs.ErrorDialog;
 import org.exallium.gitissues.utils.Util;
@@ -16,12 +15,15 @@ import com.sturtz.viewpagerheader.ViewPagerHeader;
 import com.sturtz.viewpagerheader.ViewPagerHeaderListener;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -114,6 +116,7 @@ public class SingleIssueActivity extends Activity implements ViewPagerHeaderList
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		switch(item.getItemId()) {
 		case R.id.sm_comment:
 			return true;
@@ -122,6 +125,35 @@ public class SingleIssueActivity extends Activity implements ViewPagerHeaderList
 		case R.id.sm_labels:
 			return true;
 		case R.id.sm_toggle:
+			AlertDialog.Builder issueDialog = new AlertDialog.Builder(this);
+			issueDialog.setTitle("Toggle Status");
+			
+			String message = "Are you sure you want to close this issue?";
+			if (issue.getState().contentEquals(IssueService.STATE_CLOSED)) {
+				message = "Are you sure you want to reopen this issue?";
+			}
+			
+			issueDialog.setMessage(message);
+			issueDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					if (issue.getState().contentEquals(IssueService.STATE_CLOSED)) {
+						issue.setState(IssueService.STATE_OPEN);
+						editIssue();
+					} else {
+						issue.setState(IssueService.STATE_CLOSED);
+						if (!editIssue()) {
+							ErrorDialog.show(SingleIssueActivity.this, "You can't change this.");
+						}
+					}
+				}
+			});
+			issueDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					// Do Nothing.
+				}
+			});
+			issueDialog.show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -129,9 +161,26 @@ public class SingleIssueActivity extends Activity implements ViewPagerHeaderList
 		
 	}
 	
-	private void getComments() {
-		// set comments view to progress thingy
+	private boolean editIssue() {
+		String [] str = Util.parseRepository(issue.getUrl());
+		str[0] = str[0].substring(0, str[0].length() - 1);
 		
+		SharedPreferences prefs = SingleIssueActivity.this.getSharedPreferences("login", MODE_PRIVATE);
+		String username = prefs.getString("USERNAME", "");
+		String password = prefs.getString("PASSWORD", "");
+		
+		IssueService issueService = new IssueService();
+		issueService.getClient().setCredentials(username, password);
+		try {
+			Issue i = issueService.editIssue(str[0], str[1], issue);
+		} catch (IOException e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void getComments() {		
 		try {
 			commentsThread.start();
 		} catch (Exception e) {
