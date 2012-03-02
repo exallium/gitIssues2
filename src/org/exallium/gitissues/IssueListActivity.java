@@ -37,7 +37,6 @@ public class IssueListActivity extends Activity implements ViewPagerHeaderListen
 	private List<Issue> closedIssues;
 	
 	private int SUCCESS = 0;
-	private int FAILURE = 1;
 	
 	private SharedPreferences prefs;
 	

@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.Intent;
-import android.sax.StartElementListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;

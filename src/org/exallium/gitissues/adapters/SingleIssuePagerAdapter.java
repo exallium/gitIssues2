@@ -21,13 +21,11 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHeaderProvider {
 	
@@ -41,19 +39,13 @@ public class SingleIssuePagerAdapter extends PagerAdapter implements ViewPagerHe
 	
 	private View commentView;
 	private ListView commentListView;
-	private boolean commentsLoaded = false;
-	
-	private Animation fadein;
-	private Animation fadeout;
+
 	
 	public SingleIssuePagerAdapter(Context context, Issue issue) {
 		super();
 		this.context = context;
 		this.comments = null;
 		this.issue = issue;
-		
-		fadein = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-		fadeout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
 		
 		// This should be done better...
 		titles = new String[4];
